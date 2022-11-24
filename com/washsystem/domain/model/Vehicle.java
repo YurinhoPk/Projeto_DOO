@@ -8,21 +8,21 @@ public class Vehicle implements Identifiable<Long> {
     private String plate;
     private String model;
     private String brand;
-    private Long categoryId;
+    private Category category;
 
-    public Vehicle(String plate, String model, String brand, Long categoryId) {
+    public Vehicle(String plate, String model, String brand, Category category) {
         this.plate = plate;
         this.model = model;
         this.brand = brand;
-        this.categoryId = categoryId;
+        this.category = category;
     }
 
-    public Vehicle(Long id, String plate, String model, String brand, Long categoryId) {
+    public Vehicle(Long id, String plate, String model, String brand, Category category) {
         this.id = id;
         this.plate = plate;
         this.model = model;
         this.brand = brand;
-        this.categoryId = categoryId;
+        this.category = category;
     }
 
     @Override
@@ -59,11 +59,11 @@ public class Vehicle implements Identifiable<Long> {
         this.brand = brand;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

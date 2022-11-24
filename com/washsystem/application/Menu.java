@@ -71,7 +71,7 @@ public class Menu implements Interactive {
         System.out.println("---------------------------------------------");
 
         // Scan number
-        System.out.println("> ");
+        System.out.print("> ");
         int chosen = scanner.nextInt();
 
         // Consume end line

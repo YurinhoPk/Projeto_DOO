@@ -6,17 +6,17 @@ public class Category implements Identifiable<Long> {
 
     private Long id;
     private String name;
-    private Long priceAndTimeId;
+    private PriceAndTime priceAndTime;
 
-    public Category(String name, Long priceAndTimeId) {
+    public Category(String name, PriceAndTime priceAndTime) {
         this.name = name;
-        this.priceAndTimeId = priceAndTimeId;
+        this.priceAndTime = priceAndTime;
     }
 
-    public Category(Long id, String name, Long priceAndTimeId) {
+    public Category(Long id, String name, PriceAndTime priceAndTime) {
         this.id = id;
         this.name = name;
-        this.priceAndTimeId = priceAndTimeId;
+        this.priceAndTime = priceAndTime;
     }
 
     @Override
@@ -37,11 +37,11 @@ public class Category implements Identifiable<Long> {
         this.name = name;
     }
 
-    public Long getPriceAndTimeId() {
-        return priceAndTimeId;
+    public PriceAndTime getPriceAndTime() {
+        return priceAndTime;
     }
 
-    public void setPriceAndTimeId(Long priceAndTimeId) {
-        this.priceAndTimeId = priceAndTimeId;
+    public void setPriceAndTime(PriceAndTime priceAndTime) {
+        this.priceAndTime = priceAndTime;
     }
 }

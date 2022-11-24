@@ -6,28 +6,34 @@ import com.washsystem.domain.model.Service;
 import com.washsystem.domain.model.Vehicle;
 import com.washsystem.domain.persistence.ServicePersistence;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 public class ServiceController {
 
     private final ServicePersistence servicePersistence;
-    private final ScheduleController scheduleController;
-    private final VehicleController vehicleControlle;
+    private ScheduleController scheduleController;
+    private VehicleController vehicleController;
 
-    public ServiceController(
-        ServicePersistence servicePersistence,
-        ScheduleController scheduleController,
-        VehicleController vehicleControlle
-    ) {
+    public ServiceController(ServicePersistence servicePersistence) {
         this.servicePersistence = servicePersistence;
-        this.scheduleController = scheduleController;
-        this.vehicleControlle = vehicleControlle;
     }
 
-    public void registerService(String plate, String type, String description) {
-        Vehicle vehicle = this.vehicleControlle.findOneByPlate(plate);
+    public void setScheduleController(ScheduleController scheduleController) {
+        this.scheduleController = scheduleController;
+    }
 
-        Service service = new Service(vehicle.getId(), type, description);
+    public void setVehicleController(VehicleController vehicleController) {
+        this.vehicleController = vehicleController;
+    }
 
-        this.servicePersistence.create(service);
+    public Service registerService(String plate, String type, String description) {
+        Vehicle vehicle = this.vehicleController.findOneByPlate(plate);
+
+        Service service = new Service(vehicle, type, description);
+
+        return this.servicePersistence.create(service);
     }
 
     public Service findById(Long id) throws EntityNotFoundException {
@@ -36,14 +42,29 @@ public class ServiceController {
         if (service != null) {
             return service;
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Nao existe Servico com id " + id);
         }
     }
 
-    public void editService(Long id, String plate, String type, String description) {
-        Vehicle vehicle = this.vehicleControlle.findOneByPlate(plate);
+    public Service findByPlateAndType(String plate, String type) throws EntityNotFoundException {
+        Vehicle vehicle = this.vehicleController.findOneByPlate(plate);
+        Service service = this.servicePersistence.findByVehicleIdAndType(vehicle.getId(), type);
 
-        Service service = new Service(id, vehicle.getId(), type, description);
+        if (service != null) {
+            return service;
+        } else {
+            throw new EntityNotFoundException("Nao existe Servico " + type + " para o Veiculo de placa " + plate);
+        }
+    }
+
+    public List<Service> findByDateBetween(LocalDate start, LocalDate end) {
+        return this.servicePersistence.findByDateBetween(start, end);
+    }
+
+    public void editService(Long id, String plate, String type, String description) {
+        Vehicle vehicle = this.vehicleController.findOneByPlate(plate);
+
+        Service service = new Service(id, vehicle, type, description);
 
         this.servicePersistence.save(service);
     }

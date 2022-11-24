@@ -8,44 +8,49 @@ import com.washsystem.domain.persistence.VehiclePersistence;
 
 public class VehicleController {
 
-    private final CategoryController categoryController;
     private final VehiclePersistence vehiclePersistence;
-    private final ScheduleController scheduleController;
+    private CategoryController categoryController;
+    private ScheduleController scheduleController;
 
-    public VehicleController(
-        CategoryController categoryController,
-        VehiclePersistence vehiclePersistence,
-        ScheduleController scheduleController
-    ) {
-        this.categoryController = categoryController;
+    public VehicleController(VehiclePersistence vehiclePersistence) {
         this.vehiclePersistence = vehiclePersistence;
+    }
+
+    public void setCategoryController(CategoryController categoryController) {
+        this.categoryController = categoryController;
+    }
+
+    public void setScheduleController(ScheduleController scheduleController) {
         this.scheduleController = scheduleController;
     }
 
     public void registerVehicle(String plate, String model, String brand, String categoryName) {
         Category category = this.categoryController.findOneByName(categoryName);
 
-        Vehicle vehicle = new Vehicle(plate, model, brand, category.getId());
+        Vehicle vehicle = new Vehicle(plate, model, brand, category);
 
         this.vehiclePersistence.create(vehicle);
     }
 
-    public Vehicle findOneByPlate(String plate) {
+    public Vehicle findOneByPlate(String plate) throws EntityNotFoundException {
         Vehicle vehicle = this.vehiclePersistence.findOneByPlate(plate);
 
-        if (vehicle == null) {
-            throw new EntityNotFoundException();
+        if (vehicle != null) {
+            return vehicle;
+        } else {
+            throw new EntityNotFoundException("Nao existe Veiculo com placa " + plate);
         }
-
-        return vehicle;
     }
 
-    public void editVehicle(Long id, String plate, String model, String brand, String categoryName) {
+    public void editVehicle(Long id, String plate, String model, String brand, String categoryName) throws EntityNotFoundException {
         Category category = this.categoryController.findOneByName(categoryName);
 
-        Vehicle vehicle = new Vehicle(id, plate, model, brand, category.getId());
-
-        this.vehiclePersistence.save(vehicle);
+        if (category != null) {
+            Vehicle vehicle = new Vehicle(id, plate, model, brand, category);
+            this.vehiclePersistence.save(vehicle);
+        } else {
+            throw new EntityNotFoundException("Nao existe Veiculo com id " + id);
+        }
     }
 
     public void deleteVehicle(Long id) throws EntityHasScheduledServicesException {

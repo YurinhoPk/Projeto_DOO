@@ -11,23 +11,25 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryPersistence categoryPersistence;
-    private final PriceAndTimeController priceAndTimeController;
-    private final ScheduleController scheduleController;
+    private PriceAndTimeController priceAndTimeController;
+    private ScheduleController scheduleController;
 
-    public CategoryController(
-        CategoryPersistence categoryPersistence,
-        PriceAndTimeController priceAndTimeController,
-        ScheduleController scheduleController
-    ) {
+    public CategoryController(CategoryPersistence categoryPersistence) {
         this.categoryPersistence = categoryPersistence;
+    }
+
+    public void setPriceAndTimeController(PriceAndTimeController priceAndTimeController) {
         this.priceAndTimeController = priceAndTimeController;
+    }
+
+    public void setScheduleController(ScheduleController scheduleController) {
         this.scheduleController = scheduleController;
     }
 
     public void registerCategory(String name, Long price, Long meanTime) {
         PriceAndTime priceAndTime = this.priceAndTimeController.findOneByPriceAndTime(price, meanTime);
 
-        Category category = new Category(name, priceAndTime.getId());
+        Category category = new Category(name, priceAndTime);
 
         this.categoryPersistence.create(category);
     }
@@ -42,7 +44,7 @@ public class CategoryController {
         if (category != null) {
             return category;
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Nao existe Categoria com ID " + id);
         }
     }
 
@@ -52,16 +54,20 @@ public class CategoryController {
         if (category != null) {
             return category;
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Nao existe Categoria com nome " + name);
         }
     }
 
-    public void editCategory(Long id, String name, Long price, Long meanTime) {
+    public void editCategory(Long id, String name, Long price, Long meanTime) throws EntityNotFoundException {
         PriceAndTime priceAndTime = this.priceAndTimeController.findOneByPriceAndTime(price, meanTime);
 
-        Category category = new Category(id, name, priceAndTime.getId());
+        Category category = new Category(id, name, priceAndTime);
 
-        this.categoryPersistence.save(category);
+        if (this.categoryPersistence.findById(id) != null) {
+            this.categoryPersistence.save(category);
+        } else {
+            throw new EntityNotFoundException("Nao existe Categoria com id " + id);
+        }
     }
 
     public boolean verifyPriceAndTimeUsage(Long id) {

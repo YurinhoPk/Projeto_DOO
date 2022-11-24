@@ -1,6 +1,7 @@
 package com.washsystem.application.category;
 
 import com.washsystem.application.Action;
+import com.washsystem.application.Prompt;
 import com.washsystem.domain.controller.CategoryController;
 
 import java.util.Scanner;
@@ -15,21 +16,15 @@ public class EditCategory implements Action {
 
     @Override
     public void exec(Scanner scanner) {
-        System.out.print("ID:       ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
+        Long id = Prompt.forLong(scanner, "ID");
+        String name = Prompt.forString(scanner, "Nome");
+        Long price = Prompt.forLong(scanner, "Preco");
+        Long meanTime = Prompt.forLong(scanner, "Tempo medio");
 
-        System.out.print("CPF:      ");
-        String name = scanner.nextLine();
-
-        System.out.print("Nome:     ");
-        Long price = scanner.nextLong();
-        scanner.nextLine();
-
-        System.out.print("Email:    ");
-        Long meanTime = scanner.nextLong();
-        scanner.nextLine();
-
-        this.categoryController.editCategory(id, name, price, meanTime);
+        try {
+            this.categoryController.editCategory(id, name, price, meanTime);
+        } catch (Exception e) {
+            System.out.println("Nao foi possivel editar a categoria: " + e.getMessage());
+        }
     }
 }

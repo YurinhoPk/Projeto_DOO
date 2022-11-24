@@ -2,33 +2,34 @@ package com.washsystem.domain.model;
 
 import com.washsystem.domain.persistence.Identifiable;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Schedule implements Identifiable<Long> {
 
     private Long id;
-    private Long clientId;
-    private Long serviceId;
-    private Long vehicleId;
-    private Long categoryId;
-    private Date date;
+    private Client client;
+    private Service service;
+    private Vehicle vehicle;
+    private Category category;
+    private LocalDateTime date;
     private Status status;
 
-    public Schedule(Long clientId, Long serviceId, Long vehicleId, Long categoryId, Date date, Status status) {
-        this.clientId = clientId;
-        this.serviceId = serviceId;
-        this.vehicleId = vehicleId;
-        this.categoryId = categoryId;
+    public Schedule(Client client, Service service, Vehicle vehicle, Category category, LocalDateTime date, Status status) {
+        this.client = client;
+        this.service = service;
+        this.vehicle = vehicle;
+        this.category = category;
         this.date = date;
         this.status = status;
     }
 
-    public Schedule(Long id, Long clientId, Long serviceId, Long vehicleId, Long categoryId, Date date, Status status) {
+    public Schedule(Long id, Client client, Service service, Vehicle vehicle, Category category, LocalDateTime date, Status status) {
         this.id = id;
-        this.clientId = clientId;
-        this.serviceId = serviceId;
-        this.vehicleId = vehicleId;
-        this.categoryId = categoryId;
+        this.client = client;
+        this.service = service;
+        this.vehicle = vehicle;
+        this.category = category;
         this.date = date;
         this.status = status;
     }
@@ -43,43 +44,43 @@ public class Schedule implements Identifiable<Long> {
         this.id = id;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Long getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceId(Long serviceId) {
-        this.serviceId = serviceId;
+    public void setService(Service service) {
+        this.service = service;
     }
 
-    public Long getVehicleId() {
-        return vehicleId;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleId(Long vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

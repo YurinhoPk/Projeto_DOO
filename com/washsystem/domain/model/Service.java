@@ -2,24 +2,40 @@ package com.washsystem.domain.model;
 
 import com.washsystem.domain.persistence.Identifiable;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class Service implements Identifiable<Long> {
 
     private Long id;
-    private Long vehicleId;
+    private Vehicle vehicle;
     private String type;
     private String description;
+    private LocalDateTime date;
 
-    public Service(Long vehicleId, String type, String description) {
-        this.vehicleId = vehicleId;
+    public Service(Vehicle vehicle, String type, String description) {
+        this.vehicle = vehicle;
         this.type = type;
         this.description = description;
+        this.date = LocalDateTime.now();
     }
 
-    public Service(Long id, Long vehicleId, String type, String description) {
+    public Service(Long id, Vehicle vehicle, String type, String description) {
         this.id = id;
-        this.vehicleId = vehicleId;
+        this.vehicle = vehicle;
         this.type = type;
         this.description = description;
+        this.date = LocalDateTime.now();
+    }
+
+    public Service(Long id, Vehicle vehicle, String type, String description, LocalDateTime date) {
+        this.id = id;
+        this.vehicle = vehicle;
+        this.type = type;
+        this.description = description;
+        this.date = date;
     }
 
     @Override
@@ -32,12 +48,12 @@ public class Service implements Identifiable<Long> {
         this.id = id;
     }
 
-    public Long getVehicleId() {
-        return vehicleId;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleId(Long vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public String getType() {
@@ -54,5 +70,13 @@ public class Service implements Identifiable<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

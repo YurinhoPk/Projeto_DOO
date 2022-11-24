@@ -1,6 +1,7 @@
 package com.washsystem.application.client;
 
 import com.washsystem.application.Action;
+import com.washsystem.application.Prompt;
 import com.washsystem.domain.controller.ClientController;
 import com.washsystem.domain.model.Client;
 
@@ -17,16 +18,12 @@ public class SearchClient implements Action {
 
     @Override
     public void exec(Scanner scanner) {
-        System.out.print("CPF: ");
-        String cpf = scanner.nextLine();
+        String cpf = Prompt.forString(scanner, "CPF");
 
-        List<Client> clients = clientController.findByCpf(cpf);
+        try {
+            Client client = clientController.findOneByCpf(cpf);
 
-        System.out.println("");
-        System.out.println("----- Clientes Encontrados -------------");
-        System.out.println("");
-
-        for (Client client : clients) {
+            System.out.println();
             System.out.println("ID:       " + client.getId());
             System.out.println("CPF:      " + client.getCpf());
             System.out.println("Nome:     " + client.getName());
@@ -34,6 +31,8 @@ public class SearchClient implements Action {
             System.out.println("Telefone: " + client.getTelephone());
             System.out.println("Ativo:    " + client.isActive());
             System.out.println();
+        } catch (Exception e) {
+            System.out.println("O cliente nao foi encontrado: " + e.getMessage());
         }
     }
 }

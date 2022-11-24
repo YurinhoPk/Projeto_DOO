@@ -10,10 +10,13 @@ import java.util.List;
 public class ClientController {
 
 	private final ClientPersistence clientPersistence;
-	private final ScheduleController scheduleController;
+	private ScheduleController scheduleController;
 
-	public ClientController(ClientPersistence clientPersistence, ScheduleController scheduleController) {
+	public ClientController(ClientPersistence clientPersistence) {
 		this.clientPersistence = clientPersistence;
+	}
+
+	public void setScheduleController(ScheduleController scheduleController) {
 		this.scheduleController = scheduleController;
 	}
 
@@ -22,8 +25,14 @@ public class ClientController {
 		this.clientPersistence.create(client);
 	}
 
-	public Client findOneByCpf(String cpf) {
-		return this.clientPersistence.findOneByCpf(cpf);
+	public Client findOneByCpf(String cpf) throws EntityNotFoundException {
+		Client client = this.clientPersistence.findOneByCpf(cpf);
+
+		if (client != null) {
+			return client;
+		} else {
+			throw new EntityNotFoundException("Nao existe Cliente com cpf " + cpf);
+		}
 	}
 
 	public void activateClient(Long id) throws EntityNotFoundException {
@@ -33,13 +42,29 @@ public class ClientController {
 			client.setActive(true);
 			this.clientPersistence.save(client);
 		} else {
-			throw new EntityNotFoundException();
+			throw new EntityNotFoundException("Nao existe Cliente com id " + id);
 		}
 	}
 
-	public void editClient(Long id, String cpf, String name, String email, String telephone) {
+	public void deactivateClient(Long id) throws EntityNotFoundException {
+		Client client = this.clientPersistence.findById(id);
+
+		if (client != null) {
+			client.setActive(false);
+			this.clientPersistence.save(client);
+		} else {
+			throw new EntityNotFoundException("Nao existe Cliente com id " + id);
+		}
+	}
+
+	public void editClient(Long id, String cpf, String name, String email, String telephone) throws EntityNotFoundException {
 		Client client = new Client(id, cpf, name, email, telephone);
-		this.clientPersistence.save(client);
+
+		if (this.clientPersistence.findById(id) != null) {
+			this.clientPersistence.save(client);
+		} else {
+			throw new EntityNotFoundException("Nao existe Cliente com id " + id);
+		}
 	}
 
 	public void deleteClient(Long id) throws EntityHasScheduledServicesException {

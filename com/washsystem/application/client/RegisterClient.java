@@ -1,6 +1,7 @@
 package com.washsystem.application.client;
 
 import com.washsystem.application.Action;
+import com.washsystem.application.Prompt;
 import com.washsystem.domain.controller.ClientController;
 
 import java.util.Scanner;
@@ -15,18 +16,15 @@ public class RegisterClient implements Action {
 
     @Override
     public void exec(Scanner scanner) {
-        System.out.print("CPF:      ");
-        String cpf = scanner.nextLine();
+        String cpf = Prompt.forString(scanner, "CPF");
+        String name = Prompt.forString(scanner, "Nome");
+        String email = Prompt.forString(scanner, "Email");
+        String telephone = Prompt.forString(scanner, "Telefone");
 
-        System.out.print("Nome:     ");
-        String name = scanner.nextLine();
-
-        System.out.print("Email:    ");
-        String email = scanner.nextLine();
-
-        System.out.print("Telefone: ");
-        String telephone = scanner.nextLine();
-
-        clientController.registerClient(cpf, name, email, telephone);
+        try {
+            this.clientController.registerClient(cpf, name, email, telephone);
+        } catch (Exception e) {
+            System.out.println("Nao foi possivel registrar o cliente: " + e.getMessage());
+        }
     }
 }

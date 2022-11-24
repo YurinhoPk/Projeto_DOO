@@ -1,6 +1,7 @@
 package com.washsystem.application.category;
 
 import com.washsystem.application.Action;
+import com.washsystem.application.Prompt;
 import com.washsystem.domain.controller.CategoryController;
 
 import java.util.Scanner;
@@ -15,10 +16,12 @@ public class DeleteCategory implements Action {
 
     @Override
     public void exec(Scanner scanner) {
-        System.out.println("ID: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
+        Long id = Prompt.forLong(scanner, "ID");
 
-        categoryController.deleteCategory(id);
+        try {
+            categoryController.deleteCategory(id);
+        } catch (Exception e) {
+            System.out.println("Nao foi possivel deletar a categoria: " + e.getMessage());
+        }
     }
 }

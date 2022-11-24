@@ -50,10 +50,10 @@ public class SystemMenu {
                 "Menu Caixa Registradora",
                 Menu
                     .builder()
-                    .opt(1, "Abrir Caixa Registradora", new OpenCashRegister())
-                    .opt(2, "Fechar Caixa Registradora", new CloseCashRegister())
-                    .opt(3, "Emitir Relatorio Diario", new EmitDailyReport())
-                    .opt(4, "Emitir Relatorio Entre Datas", new EmitReport())
+                    .opt(1, "Abrir Caixa Registradora", new OpenCashRegister(cashRegisterController))
+                    .opt(2, "Fechar Caixa Registradora", new CloseCashRegister(cashRegisterController))
+                    .opt(3, "Emitir Relatorio Diario", new EmitDailyReport(cashRegisterController))
+                    .opt(4, "Emitir Relatorio Entre Datas", new EmitReport(cashRegisterController))
                     .close(0)
                     .build()
             )
@@ -63,11 +63,11 @@ public class SystemMenu {
                 Menu
                     .builder()
                     .opt(1, "Registrar", new RegisterClient(clientController))
-                    .opt(2, "Editar", new EditClient())
+                    .opt(2, "Editar", new EditClient(clientController))
                     .opt(3, "Procurar", new SearchClient(clientController))
-                    .opt(4, "Ativar", new ActivateClient())
-                    .opt(5, "Desativar", new DeactiveteClient())
-                    .opt(6, "Deletar", new DeleteClient())
+                    .opt(4, "Ativar", new ActivateClient(clientController))
+                    .opt(5, "Desativar", new DeactiveteClient(clientController))
+                    .opt(6, "Deletar", new DeleteClient(clientController))
                     .close(0)
                     .build()
             )
@@ -76,10 +76,10 @@ public class SystemMenu {
                 "Menu Veiculo",
                 Menu
                     .builder()
-                    .opt(1, "Registrar", new RegisterVehicle())
-                    .opt(2, "Editar", new EditVehicle())
-                    .opt(3, "Procurar", new SearchVehicle())
-                    .opt(4, "Deletar", new DeleteVehicle())
+                    .opt(1, "Registrar", new RegisterVehicle(vehicleController))
+                    .opt(2, "Editar", new EditVehicle(vehicleController))
+                    .opt(3, "Procurar", new SearchVehicle(vehicleController))
+                    .opt(4, "Deletar", new DeleteVehicle(vehicleController))
                     .close(0)
                     .build()
             )
@@ -100,10 +100,10 @@ public class SystemMenu {
                 "Menu Servico",
                 Menu
                     .builder()
-                    .opt(1, "Registrar", new RegisterService())
-                    .opt(2, "Editar", new EditService())
-                    .opt(3, "Procurar", new SearchService())
-                    .opt(4, "Deletar", new DeleteService())
+                    .opt(1, "Registrar", new RegisterService(serviceController))
+                    .opt(2, "Editar", new EditService(serviceController))
+                    .opt(3, "Procurar", new SearchService(serviceController))
+                    .opt(4, "Deletar", new DeleteService(serviceController))
                     .close(0)
                     .build()
             )
@@ -112,10 +112,10 @@ public class SystemMenu {
                 "Menu Preco e Tempo",
                 Menu
                     .builder()
-                    .opt(1, "Registrar", new RegisterPriceAndTime())
-                    .opt(2, "Editar", new EditPriceAndTime())
-                    .opt(3, "Procurar", new ListPriceAndTime())
-                    .opt(4, "Deletar", new DeletePriceAndTime())
+                    .opt(1, "Registrar", new RegisterPriceAndTime(priceAndTimeController))
+                    .opt(2, "Editar", new EditPriceAndTime(priceAndTimeController))
+                    .opt(3, "Procurar", new ListPriceAndTime(priceAndTimeController))
+                    .opt(4, "Deletar", new DeletePriceAndTime(priceAndTimeController))
                     .close(0)
                     .build()
             )
@@ -124,8 +124,8 @@ public class SystemMenu {
                 "Menu Agenda",
                 Menu
                     .builder()
-                    .opt(1, "Registrar", new RegisterSchedule())
-                    .opt(2, "Editar", new EditSchedule())
+                    .opt(1, "Registrar", new RegisterSchedule(scheduleController))
+                    .opt(2, "Editar", new EditSchedule(scheduleController))
                     .close(0)
                     .build()
             )

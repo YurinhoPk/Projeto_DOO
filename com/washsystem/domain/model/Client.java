@@ -29,6 +29,15 @@ public class Client implements Identifiable<Long> {
 		this.active = false;
 	}
 
+	public Client(Long id, String cpf, String name, String email, String telephone, boolean active) {
+		this.id = id;
+		this.cpf = cpf;
+		this.name = name;
+		this.email = email;
+		this.telephone = telephone;
+		this.active = active;
+	}
+
 	@Override
 	public Long getId() {
 		return id;

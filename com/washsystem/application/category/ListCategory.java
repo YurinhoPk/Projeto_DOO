@@ -20,9 +20,11 @@ public class ListCategory implements Action {
         List<Category> categoryList = categoryController.findAll();
 
         for (Category category : categoryList) {
+            System.out.println();
             System.out.println("ID: " + category.getId());
             System.out.println("Nome: " + category.getName());
-            System.out.println("ID Preco e Tempo: " + category.getPriceAndTimeId());
+            System.out.println("ID Preco e Tempo: " + category.getPriceAndTime().getId());
+            System.out.println();
         }
     }
 }
